@@ -2,7 +2,7 @@ import express from 'express'
 import MongoDB from 'mongodb'
 import bodyParser from 'body-parser'
 import routes  from './app/routes/index.js';
-import db from "./app/config/db"
+import db from "./db"
 
 const app = express();
 const MongoClient = MongoDB.MongoClient();
