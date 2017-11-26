@@ -1,7 +1,7 @@
 var ObjectID = require('mongodb').ObjectID;
 export default function (app, db) {
-	app.get('/words', (req,res) => {
-		db.collection('words').find().toArray( (err,item) => {
+	app.get('/lists', (req,res) => {
+		db.collection('lists').find().toArray( (err,item) => {
 			if (err){
 				res.send('error': 'An error has occured');
 			} else {
@@ -10,10 +10,10 @@ export default function (app, db) {
 		});
 
 	});
-	app.get('/words/:id', (req,res) => {
+	app.get('/lists/:id', (req,res) => {
 		const id = req.params.id;
 		const details = {'_id': ObjectID(id) };
-		db.collection('words').findOne(details, (err, item) => {
+		db.collection('lists').findOne(details, (err, item) => {
 			if(err){
 				res.send({'error': 'An error has occured'});
 
@@ -22,9 +22,9 @@ export default function (app, db) {
 			}
 		});
 	});
-	app.post('/words', (req, res) => {
-		var word = { word: req.body.word, translation: req.body.translation, description: req.body.description }
-		db.collection('words').insert(word, (err, result) => {
+	app.post('/lists', (req, res) => {
+		var list = { name: req.body.name, words: req.body.words }
+		db.collection('lists').insert(list, (err, result) => {
 			if (err) {
 				res.send({'error': 'An error has occured'});
 			} else {
@@ -34,10 +34,19 @@ export default function (app, db) {
 		});
 	})
 
-	app.delete('/words/:id', (req,res) => {
+	app.post('/lists/:id', (req,res) => {
+		const id = req.params.id;
+		const details = {'_id': ObjectID(id)};
+		db.collection('lists').update(
+			{"_id": details},
+			{ $push: { words: req.body.wordId} }
+		)
+	})
+
+	app.delete('/lists/:id', (req,res) => {
 		const id = req.params.id;
 		const details = {'_id': ObjectID(id) };
-		db.collection('words').remove(details, (err, item) => {
+		db.collection('lists').remove(details, (err, item) => {
 			if(err){
 				res.send({'error': 'An error has occured'});
 
