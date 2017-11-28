@@ -10,6 +10,7 @@ export default function (app, db) {
 		});
 
 	});
+	
 	app.get('/words/:id', (req,res) => {
 		const id = req.params.id;
 		const details = {'_id': ObjectID(id) };

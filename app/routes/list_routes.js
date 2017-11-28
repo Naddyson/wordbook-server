@@ -23,6 +23,7 @@ export default function (app, db) {
 		});
 	});
 	app.post('/lists', (req, res) => {
+		console.log(req.body)
 		var list = { name: req.body.name, words: req.body.words }
 		db.collection('lists').insert(list, (err, result) => {
 			if (err) {
