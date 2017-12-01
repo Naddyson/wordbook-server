@@ -24,6 +24,7 @@ export default function (app, db) {
 	});
 	app.post('/lists', (req, res) => {
 		console.log(req.body)
+
 		var list = { name: req.body.name, words: req.body.words }
 		db.collection('lists').insert(list, (err, result) => {
 			if (err) {
@@ -35,13 +36,16 @@ export default function (app, db) {
 		});
 	})
 
-	app.post('/lists/:id', (req,res) => {
+	app.post('/lists/push_word/:id', (req,res) => {
+		console.log(req.body.wordId)
 		const id = req.params.id;
-		const details = {'_id': ObjectID(id)};
+		const details =  ObjectID(id);
 		db.collection('lists').update(
-			{"_id": details},
-			{ $push: { words: req.body.wordId} }
+			{ '_id' : details},
+			{  $push : { 'words': req.body.wordId }},
+			{ upsert: true }
 		)
+		res.send("yeah")
 	})
 
 	app.delete('/lists/:id', (req,res) => {
