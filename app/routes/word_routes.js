@@ -24,7 +24,7 @@ export default function (app, db) {
 		});
 	});
 	app.post('/words', (req, res) => {
-		var word = { word: req.body.word, translation: req.body.translation, description: req.body.description }
+		var word = { word: req.body.word, translation: req.body.translation, description: req.body.description, list: req.body.list }
 		db.collection('words').insert(word, (err, result) => {
 			if (err) {
 				res.send({'error': 'An error has occured'});

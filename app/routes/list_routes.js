@@ -25,7 +25,7 @@ export default function (app, db) {
 	app.post('/lists', (req, res) => {
 		console.log(req.body)
 
-		var list = { name: req.body.name, words: req.body.words }
+		var list = { name: req.body.name }
 		db.collection('lists').insert(list, (err, result) => {
 			if (err) {
 				res.send({'error': 'An error has occured'});
@@ -36,7 +36,7 @@ export default function (app, db) {
 		});
 	})
 
-	app.post('/lists/push_word/:id', (req,res) => {
+/*	app.post('/lists/push_word/:id', (req,res) => {
 		console.log(req.body.wordId)
 		const id = req.params.id;
 		const details =  ObjectID(id);
@@ -46,7 +46,7 @@ export default function (app, db) {
 			{ upsert: true }
 		)
 		res.send("yeah")
-	})
+	})*/
 
 	app.delete('/lists/:id', (req,res) => {
 		const id = req.params.id;
